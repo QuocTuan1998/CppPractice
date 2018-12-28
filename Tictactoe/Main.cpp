@@ -21,8 +21,8 @@ char matrix[3][3] = { ' ', ' ', ' ',
 int countDraw = 0;
 int row, col;
 
-char strName1[20];
-char strName2[20];
+char strName1[50];
+char strName2[50];
 
 int main()
 {
@@ -42,9 +42,11 @@ int main()
 	{
 	case '1':
 		cout << "You choose play game, but first, please enter player 1 name : ";
-		cin >> strName1;
+		cin.ignore();
+		cin.getline(strName1, 50);
 		cout << "and player 2 name : ";
-		cin >> strName2;
+		cin.ignore();
+		cin.getline(strName2, 50);
 		cout << "So " << strName1 << " will be X and " << strName2 << " will be O\n";
 		cout << "Ok! lets start the game, ";
 		system("pause");
