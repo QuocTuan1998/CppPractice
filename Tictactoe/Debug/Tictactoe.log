@@ -1,0 +1,4 @@
+﻿  Main.cpp
+d:\workspace\project\cpp project\tictactoe\tictactoe\main.cpp(113): warning C4129: 'm': unrecognized character escape sequence
+  Tictactoe.vcxproj -> D:\Workspace\project\cpp project\Tictactoe\Debug\Tictactoe.exe
+  Tictactoe.vcxproj -> D:\Workspace\project\cpp project\Tictactoe\Debug\Tictactoe.pdb (Full PDB)

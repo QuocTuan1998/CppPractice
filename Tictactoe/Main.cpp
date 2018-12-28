@@ -9,25 +9,27 @@ using namespace std;
 
 int checkWin();
 void gameUI();
+void gamePlay();
 void resetArray();
 void resetGame();
 
 char draw = 'X';
 
 char matrix[3][3] = { ' ', ' ', ' ',
-' ', ' ', ' ',
-' ', ' ', ' ' };
+					' ', ' ', ' ',
+					' ', ' ', ' ' };
+int countDraw = 0;
+int row, col;
+
+char strName1[20];
+char strName2[20];
+
 int main()
 {
 
-	int player = 2, choice;
-	int row, col;
+	
 	char mode;
-	int countDraw = 0;
-	char strName1[20];
-	char strName2[20];
-	int whoWon = 1;
-	int i;
+
 	/////////////////		Introduce
 	cout << "Welcom to tic-tac-toe game! Play with your way! \n";
 	cout << "If you find any problem, please contract Tuan.NguyenQuoc@gameloft.com\n";
@@ -47,77 +49,7 @@ int main()
 		cout << "Ok! lets start the game, ";
 		system("pause");
 
-		do
-		{
-			i = checkWin();
-			if (i == 1) // Win
-			{
-
-				gameUI();
-
-				if (whoWon == 1) //////// Get name of the winner
-				{
-					cout << "\n ===== " << strName1 << " win ===== \n";
-
-				}
-				else
-				{
-					cout << "\n ===== " << strName2 << " win ===== \n";
-				}
-
-				resetGame();
-
-			}
-			////////////		Draw game!
-			if (countDraw == 9)
-			{
-				gameUI();
-				cout << "\m Draw game, ";
-
-				resetGame();
-			}
-
-			gameUI();
-			//////// Check player Turn
-			if (player % 2 == 0)
-			{
-				draw = 'X';
-				whoWon = 1; ///////		Get name turn
-			}
-			else
-			{
-				draw = 'O';
-				whoWon = 2;
-			}
-
-			if (whoWon == 1)
-			{
-				cout << "\n\t" << strName1 << " turn (input row(1 ---> 3) and column(1 ---> 3) you want, ex: 12) " << draw << ":";
-			}
-			else
-			{
-				cout << "\n\t" << strName2 << " turn (input row(1 ---> 3) and column(1 ---> 3) you want, ex: 12) : " << draw << ":";
-			}
-
-			cin >> choice;
-			row = choice / 10 - 1;
-			col = choice % 10 - 1;
-
-			if (matrix[row][col] != 'X' && matrix[row][col] != 'O')
-			{
-				matrix[row][col] = draw;
-				countDraw++;
-			}
-			else
-			{
-				player--;
-			}
-
-			row = 0;
-			col = 0;
-			player++;
-
-		} while (i == -1);
+		gamePlay();
 
 		break;
 
@@ -146,6 +78,84 @@ void gameUI()
 	cout << "\t|\t " << " \t|\t " << " \t|\t " << " \t| \n";
 	cout << "\t|\t " << " \t|\t " << " \t|\t " << " \t|\t \n";
 	cout << "\t _______________" << " _______________" << " _______________" << "\n";
+}
+
+void gamePlay()
+{
+	int whoWon;
+	int player = 2, choice;
+	int i;
+	do
+	{
+		i = checkWin();
+		if (i == 1) // Win
+		{
+
+			gameUI();
+
+			if (whoWon == 1) //////// Get name of the winner
+			{
+				cout << "\n ===== " << strName1 << " win ===== \n";
+
+			}
+			else
+			{
+				cout << "\n ===== " << strName2 << " win ===== \n";
+			}
+
+			resetGame();
+
+		}
+		////////////		Draw game!
+		if (countDraw == 9)
+		{
+			gameUI();
+			cout << "\m Draw game, ";
+
+			resetGame();
+		}
+
+		gameUI();
+		//////// Check player Turn
+		if (player % 2 == 0)
+		{
+			draw = 'X';
+			whoWon = 1; ///////		Get name turn
+		}
+		else
+		{
+			draw = 'O';
+			whoWon = 2;
+		}
+
+		if (whoWon == 1)
+		{
+			cout << "\n\t" << strName1 << " turn (input row(1 ---> 3) and column(1 ---> 3) you want, ex: 12) " << draw << ":";
+		}
+		else
+		{
+			cout << "\n\t" << strName2 << " turn (input row(1 ---> 3) and column(1 ---> 3) you want, ex: 12) " << draw << ":";
+		}
+
+		cin >> choice;
+		row = choice / 10 - 1;
+		col = choice % 10 - 1;
+
+		if (matrix[row][col] != 'X' && matrix[row][col] != 'O')
+		{
+			matrix[row][col] = draw;
+			countDraw++;
+		}
+		else
+		{
+			player--;
+		}
+
+		row = 0;
+		col = 0;
+		player++;
+
+	} while (i == -1);
 }
 
 int checkWin()
@@ -218,8 +228,12 @@ void resetGame()
 	{
 	case 'y':
 		cout << "\nReset the game, ";
-		system("pause");
 		resetArray();
+		countDraw = 0;
+		row = 0;
+		col = 0;
+		system("pause");
+		gamePlay();
 		break;
 	default:
 		exit(0);
