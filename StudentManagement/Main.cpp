@@ -17,8 +17,8 @@ int inputNumberOfStudent();
 void insertStudent(int n, vector<Student>  &listStudent);
 int checkID(int id, vector<Student> &listStudent);
 void displayStudent(vector <Student> listStudent);
-void saveFile(vector<Student> &student);
-void loadFile(vector<Student> student);
+void saveToFile(vector<Student> &listStudent);
+void loadFile(vector<Student> listStudent);
 
 vector<Student>  listStudent;
 //vector<Student>::iterator it;
@@ -46,10 +46,14 @@ void main()
 		case 2:
 			displayStudent(listStudent);
 			break;
+		case 3:
+			saveToFile(listStudent);
+			break;
 		default:
+			exit(0);
 			break;
 		}
-	} while (choice < 1 || choice > 4);
+	} while (true);
 }
 
 void displayMenu()
@@ -89,6 +93,7 @@ void insertStudent(int n, vector<Student>  &listStudent)
 		do
 		{
 			cout << "\nPlease input id of student " << i + 1 << ": ";
+			cin.ignore();
 			cin >> tmpStudent.id;
 
 			if (checkID(tmpStudent.id, listStudent) == -1)
@@ -107,7 +112,6 @@ void insertStudent(int n, vector<Student>  &listStudent)
 		cout << "\nPlease input score of student " << i + 1 << ": ";
 		cin >> tmpStudent.score;
 		listStudent.push_back(tmpStudent);
-
 	}
 
 }
@@ -141,18 +145,41 @@ void displayStudent(vector <Student> listStudent)
 
 	for (auto tmp : listStudent)
 	{
-		cout << "\t" << tmp.id << "\t" << tmp.name << "\t" << tmp.score << "\t \n";
+		cout << "\t" << tmp.id << "\t" << tmp.name << "\t\t" << tmp.score << "\t \n";
 	}
 
-	cout << "Press any key to back to menu";
+	cout << "\n\tPress any key to back to menu";
 	system("pause>NULL");
 }
 
-void saveFile(vector<Student> &student)
+void saveToFile(vector<Student> &listStudent)
 {
+	ofstream outfile;
+	outfile.open("student.txt");
+
+	if (listStudent.empty())
+	{
+		cout << "no data! press any key to back to menu";
+		system("pause>NULL");
+		return;
+	}
+	if (outfile.is_open())
+	{
+		for (auto tmp : listStudent)
+		{
+			outfile << tmp.id << endl;
+			outfile << tmp.name << endl;
+			outfile << tmp.score << endl;
+			
+		}
+		outfile.close();
+	}
+
+	cout << "Data has been saved to file! Press any key to back to menu";
+	system("pause>NULL");
 
 }
-void loadFile(vector<Student> student)
-{
 
+void loadFile(vector<Student> listStudent)
+{
 }
