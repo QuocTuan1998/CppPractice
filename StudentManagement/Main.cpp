@@ -13,22 +13,18 @@ struct Student
 };
 
 void displayMenu();
-int inputNumberOfStudent();
+int inputNumberOfStudent(); 
 void insertStudent(int n, vector<Student>  &listStudent);
 int checkID(int id, vector<Student> &listStudent);
 void displayStudent(vector <Student> listStudent);
 void saveToFile(vector<Student> &listStudent);
-void loadFile(vector<Student> listStudent);
+void loadToFile(vector<Student> *listStudent);
 
 vector<Student>  listStudent;
-//vector<Student>::iterator it;
-
-
 
 void main()
 {
 	int choice;
-
 
 	do
 	{
@@ -48,6 +44,9 @@ void main()
 			break;
 		case 3:
 			saveToFile(listStudent);
+			break;
+		case 4:
+			loadToFile(&listStudent);
 			break;
 		default:
 			exit(0);
@@ -180,6 +179,47 @@ void saveToFile(vector<Student> &listStudent)
 
 }
 
-void loadFile(vector<Student> listStudent)
+void loadToFile(vector<Student> * listStudent)
 {
+	string line;
+	int id;
+	double score;
+	int numOfLine = 0;
+	ifstream file("student.txt");
+	Student tmp;
+
+	if (file.is_open())
+	{
+		while (getline(file, line))
+		{
+			numOfLine++;
+			switch (numOfLine)
+			{
+			case 1:
+				id = stoi(line);
+				tmp.id = id;
+				break;
+			case 2 :
+				tmp.name = line;
+				break;
+			case 3:
+				score = stod(line);
+				tmp.score = score;
+				listStudent -> push_back(tmp);
+				numOfLine = 0;
+			default:
+				break;
+			}
+			
+		}
+		file.close();
+		cout << "Load data in file success! Press any key to back to menu";
+		
+	}
+	else
+	{
+		cout << "unable to open file! Press any key to back to menu";
+	}
+
+	system("pause>NULL");
 }
