@@ -16,6 +16,7 @@ void displayMenu();
 int inputNumberOfStudent(); 
 void insertStudent(int n, vector<Student>  &listStudent);
 int checkID(int id, vector<Student> &listStudent);
+int checkScore(double score);
 void displayStudent(vector <Student> listStudent);
 void saveToFile(vector<Student> &listStudent);
 void loadToFile(vector<Student> *listStudent);
@@ -30,6 +31,7 @@ void main()
 	{
 		displayMenu();
 		cout << "input your choice : ";
+		cin.get();
 		cin >> choice;
 		switch (choice)
 		{
@@ -94,7 +96,7 @@ void insertStudent(int n, vector<Student>  &listStudent)
 			cout << "\nPlease input id of student " << i + 1 << ": ";
 			cin.ignore();
 			cin >> tmpStudent.id;
-
+			// checkID is duplicate
 			if (checkID(tmpStudent.id, listStudent) == -1)
 			{
 				break;
@@ -108,8 +110,21 @@ void insertStudent(int n, vector<Student>  &listStudent)
 		cout << "\nPlease input name of student " << i + 1 << ": ";
 		cin.ignore();
 		getline(cin, tmpStudent.name);
-		cout << "\nPlease input score of student " << i + 1 << ": ";
-		cin >> tmpStudent.score;
+		
+		do
+		{
+			cout << "\nPlease input score of student " << i + 1 << ": ";
+			cin >> tmpStudent.score;
+			// check score is in range(0 - 10)
+			if (checkScore(tmpStudent.score) == 1)
+			{
+				break;
+			}
+
+			cout << "Score must be in range (0-->10), ";
+			system("pause");
+		} while (checkScore(tmpStudent.score) == -1);
+
 		listStudent.push_back(tmpStudent);
 	}
 
@@ -126,6 +141,19 @@ int checkID(int id, vector<Student> &listStudent)
 		}
 	}
 	return -1;
+}
+
+int checkScore(double score)
+{
+	if (score <= 10 && score >= 0)
+	{
+		return 1;
+		
+	}
+	else
+	{
+		return -1;
+	}
 }
 
 void displayStudent(vector <Student> listStudent)
