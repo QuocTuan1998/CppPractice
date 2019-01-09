@@ -12,7 +12,7 @@ using namespace std;
 struct PatientStruct
 {
 	int numOfVirus = rand() % ((10 - 2) + 1) + 2; // random number of virus
-	int patientResistance = rand() % ((9000 - 5000) + 1) + 5000; // random resistance
+	int patientResistance = rand() % ((500 - 1) + 1) + 1; // random resistance
 	int sumOfResistanceVirus = 0;
 }st;
 
@@ -65,55 +65,71 @@ void Patient::DoStart()
 			Virus * virus = new DengueVirus();
 			virus->DoBorn();
 			this->mListVirus.push_back(virus);
-			
 		}
 	}
 }
 
 void Patient::TakeMedicine(int medicine)
 {
-	cout << "num vr : " << st.numOfVirus << endl;
-
 	for (int i = 0; i < st.numOfVirus; i++)
 	{
 		this->mListVirus[i]->ReduceResistance(medicine); // call virus reduce
-
-		if (this->mListVirus[i]->getResistance() <= 0) // virus die
+		st.sumOfResistanceVirus += this->mListVirus[i]->getResistance();
+		if (this->mListVirus[i]->getResistance() > 0) // not die 
 		{
-			st.sumOfResistanceVirus += this->mListVirus[i]->getResistance();
-			this->mListVirus[i]->setResistance(0);
-		}
-		else // not die
-		{
-			st.sumOfResistanceVirus += this->mListVirus[i]->getResistance();
-			vector<Virus*> tmpVec = this->mListVirus[i]->DoClone();
+			vector<Virus*> tmpVec = this->mListVirus[i]->DoClone(); 
 			int m = tmpVec.size();
-			for (int j = 0; j < m; j++)  // clone virus depend on what kind of virus
+			for (int j = 0; j < m; j++)  // push clone virus into listvirus
 			{
-				//this->mListVirus.insert(this->mListVirus.begin(), tmpVec[j]); // insert into list of virus
 				this->mListVirus.push_back(tmpVec[j]);
 			}
+			
+			for (auto it : tmpVec)
+			{
+				delete it;
+			}
+		}
+		else
+		{
+			this->mListVirus[i]->DoDie();
 		}
 	}
-	
+
+	// remove virus if resistance <= 0
+	for (int i = 0; i < this->mListVirus.size();i++)
+	{
+		if (this->mListVirus[i]->getResistance() <= 0)
+		{		
+			this->mListVirus.erase(this->mListVirus.begin() + i);
+			i--;
+		}
+	}
+
 	if (st.sumOfResistanceVirus >= st.patientResistance)
 	{
 		this->mState = 0;
+		DoDie();
 	}
-	else if (st.sumOfResistanceVirus <= 0)
-	{
-		this->mListVirus.clear();
-	}
-	st.numOfVirus = this->mListVirus.size();
-	cout << "num vr : " << st.numOfVirus << endl;
-	cout << "sum of resistance virus : " << st.sumOfResistanceVirus << endl;
+
+	st.numOfVirus = getListSize();
+}
+
+int Patient::getListSize()
+{
+	return this->mListVirus.size();
 }
 
 void Patient::DoDie()
 {
-	delete this;
+	 ///clear list
+	for (auto it : this->mListVirus)
+	{
+		delete it;
+	}
+
 }
 
 Patient::~Patient()
 {
+	
 }

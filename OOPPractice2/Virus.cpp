@@ -1,16 +1,20 @@
 #include "Virus.h"
 #include <iostream>
 #include <fstream>
-#include <string>
+#include <cstring>
 #include <algorithm>
 using namespace std;
 
 Virus::Virus()
 {
+	this->mDNA = new char[50];
 }
 
-Virus::Virus(const Virus * virus)
+Virus::Virus(const Virus & virus)
 {
+	this->mDNA = new char[50];
+	strcpy_s(this->mDNA, 50, virus.mDNA);
+	this->mResistance = virus.mResistance;
 }
 
 void Virus::LoadADNInformation()
@@ -19,14 +23,14 @@ void Virus::LoadADNInformation()
 	ifstream myfile("adn.bin");
 	if (myfile.is_open())
 	{
-		this->mDNA = new char[100];
 		myfile >> this->mDNA;
 	}
-		myfile.close();
+	myfile.close();
 }
 
 int& Virus::ReduceResistance(int medicine_resistance)
 {
+	
 	this->mResistance -= medicine_resistance;
 	return this->mResistance;
 }
@@ -41,16 +45,7 @@ void Virus::setResistance(int resistance)
 	mResistance = resistance;
 }
 
-char * Virus::getDNA()
-{
-	return this->mDNA;
-}
-
-void Virus::setDNA(char * dna)
-{
-	this->mDNA = dna;
-}
-
 Virus::~Virus()
 {
+	delete this->mDNA;
 }

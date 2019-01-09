@@ -9,9 +9,9 @@ FluVirus::FluVirus()
 	Virus::LoadADNInformation();
 }
 
-FluVirus::FluVirus(const FluVirus *fluVirus)
+FluVirus::FluVirus(const FluVirus &fluVirus) : Virus(fluVirus)
 {
-	*this = *fluVirus;
+	this->mColor = fluVirus.mColor;
 }
 
 int FluVirus::getColor()
@@ -33,20 +33,18 @@ void FluVirus::DoBorn()
 	}
 	
 	InitResistance();	
-	
 }
 
 vector<Virus*> FluVirus::DoClone()
 {
 	vector<Virus*> vFlu;
-	Virus* flu = new FluVirus(this); // create new virus like current virus
+	Virus* flu = new FluVirus(*this); // create new virus like current virus
 	vFlu.push_back(flu);
 	return vFlu;
 }
 
 void FluVirus::DoDie()
 {
-	delete this->getDNA();
 } 
 
 void FluVirus::InitResistance()
@@ -63,6 +61,6 @@ void FluVirus::InitResistance()
 
 FluVirus::~FluVirus()
 {
-	
+
 }
 

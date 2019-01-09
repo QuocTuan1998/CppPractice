@@ -20,6 +20,7 @@ public:
 	void InitResistance();
 	void DoStart();
 	void TakeMedicine(int medicine);
+	int getListSize();
 	void DoDie();
 	~Patient();
 };

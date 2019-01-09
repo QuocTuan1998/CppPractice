@@ -11,7 +11,7 @@ private:
 public:
 	Virus();
 	// copy constructor
-	Virus(const Virus* virus);
+	Virus(const Virus& virus);
 	// load adn from file
 	void LoadADNInformation();
 	//  calculate resistance
@@ -19,13 +19,12 @@ public:
 	// getter and setter
 	int getResistance();
 	void setResistance(int resistance);
-	char* getDNA();
 	void setDNA(char* dna);
 	// pure virtual
 	virtual void DoBorn() = 0;
 	virtual vector<Virus*> DoClone() = 0;
 	virtual void DoDie() = 0;
 	virtual void InitResistance() = 0;
-	~Virus();
+	virtual ~Virus();
 };
 #endif // !VIRUS_H

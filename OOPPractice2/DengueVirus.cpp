@@ -1,29 +1,21 @@
 #include <iostream>
 #include "DengueVirus.h"
 #include <vector>
+#include <cstring>
 #include <cstdlib>
-#include <time.h>
 
 using namespace std;
 
 DengueVirus::DengueVirus()
 {
+	this->mProtein = new char[4];
 	Virus::LoadADNInformation();
 }
 
-DengueVirus::DengueVirus(const DengueVirus * den)
+DengueVirus::DengueVirus(const DengueVirus & den) : Virus(den)
 {
-	*this = *den;
-}
-
-char DengueVirus::getProtein()
-{
-	return *this->mProtein;
-}
-
-void DengueVirus::setProtein(char *protein)
-{
-	this->mProtein = protein;
+	this->mProtein = new char[4];
+	strcpy_s(this->mProtein, 4, den.mProtein);
 }
 
 void DengueVirus::DoBorn()
@@ -34,8 +26,8 @@ void DengueVirus::DoBorn()
 vector<Virus*> DengueVirus::DoClone()
 {
 	vector<Virus*> vDen;
-	Virus* den = new DengueVirus(this);		// same as flu virus
-	Virus* den1 = new DengueVirus(this);
+	Virus* den = new DengueVirus(*this);
+	Virus* den1 = new DengueVirus(*this);
 	vDen.push_back(den);
 	vDen.push_back(den1);
 	return vDen;
@@ -43,47 +35,44 @@ vector<Virus*> DengueVirus::DoClone()
 
 void DengueVirus::DoDie()
 {
-	delete this->mProtein;
-	delete this->getDNA();
+	delete mProtein;
 }
 
 void DengueVirus::InitResistance()
 {
 	int n = rand() % ((3 - 1) + 1) + 1; // random kind of virus
-
 	switch (n)
 	{
 	case 1:		//NS3
 	{
-		char pr[] = { 'N', 'S', '3', '\0' };
-		char * p = pr;
-		this->setProtein(p);
+		this->mProtein[0] = 'N';
+		this->mProtein[1] = 'S';
+		this->mProtein[2] = '3';
+		this->mProtein[3] = '\0';
 		this->setResistance(rand() % ((10 - 1) + 1) + 1);
-		cout << this->mProtein << endl;
 		break;
 	}
 	case 2:		//NS5
 	{
-		char pr[] = { 'N', 'S', '5', '\0' };
-		char * p = pr;
-		this->setProtein(p);
+		this->mProtein[0] = 'N';
+		this->mProtein[1] = 'S';
+		this->mProtein[2] = '5';
+		this->mProtein[3] = '\0';
 		this->setResistance(rand() % ((20 - 11) + 1) + 11);
-		cout << this->mProtein << endl;
 		break;
 	}
 		
 	default:	// E
 	{
-		char pr[] = { 'E' , '\0'};
-		char * p = pr;
-		this->setProtein(p);
+		this->mProtein[0] = 'E';
+		this->mProtein[1] = '\0';
 		this->setResistance(rand() % ((30 - 21) + 1) + 21);
-		cout << this->mProtein << endl;
 		break;
 	}
 	}
 }
 
-DengueVirus::~DengueVirus()
+ DengueVirus::~DengueVirus()
 {
+
 }

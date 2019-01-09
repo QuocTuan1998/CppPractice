@@ -12,9 +12,7 @@ private:
 
 public:
 	DengueVirus();
-	DengueVirus(const DengueVirus * den);
-	char getProtein();
-	void setProtein(char *protein);
+	DengueVirus(const DengueVirus & den);
 	void DoBorn() override;
 	vector<Virus*> DoClone() override;
 	void DoDie() override;

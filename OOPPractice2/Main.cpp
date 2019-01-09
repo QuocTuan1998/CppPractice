@@ -6,18 +6,19 @@
 #include "Patient.h"
 #include <iostream>
 #include <time.h>
-
+#include <vld.h>
 using namespace std;
 
 void main()
 {
 	srand(NULL);
 
-	Patient pat;
-	cout << "patient resistance : " << pat.getResistance() << endl;
+	Patient *pat = new Patient();
+
+	//cout << "patient resistance : " << pat->getResistance() << endl;
 	char choice;
 
-	while (pat.getState() == 1)
+	while (pat->getState() == 1)
 	{
 		cout << "Take Medicine (0 = NO, 1 = YES) : ";
 		cin >> choice;
@@ -26,21 +27,27 @@ void main()
 			int min = 1;
 			int max = 10;
 			int medicine = rand() % ((max - min) + 1) + min;
-
-			pat.TakeMedicine(medicine);
-
-			if (pat.getListVirus().size() == 0)
+			pat->TakeMedicine(medicine);
+			int listSize = pat->getListSize();
+			if (listSize == 0) // leak here
 			{
 				cout << "patient alive, all virus are clear." << endl;
 				break;
 			}
+			
+		}
+		else  {
+			pat->TakeMedicine(0);
 		}
 	}
 
-	if (pat.getState() == 0)
+	if (pat->getState() == 0)
 	{
 		cout << "patient die" << endl;
 	}
+
+	pat->DoDie();
+	delete pat;
 	system("pause");
 
 }

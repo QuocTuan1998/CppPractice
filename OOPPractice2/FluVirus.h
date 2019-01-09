@@ -11,14 +11,14 @@ private:
 	int mColor;
 public:
 	FluVirus();
-	FluVirus(const FluVirus* fluVirus);
+	FluVirus(const FluVirus& fluVirus);
 	int getColor();
 	void DoBorn() override;
 	vector<Virus*> DoClone() override;
 	void DoDie() override;
 	void InitResistance() override;
 	 
-	virtual ~FluVirus();
+	~FluVirus();
 };
 
 #endif // !FLUVIRUS_H
