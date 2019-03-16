@@ -66,6 +66,7 @@ void displayMenu()
 	cout << "3. Save to file\n";
 	cout << "4. Load from file\n";
 	cout << "orther. Exit\n";
+	cout << "===========================MENU===========================\n";
 }
 
 int inputNumberOfStudent()
